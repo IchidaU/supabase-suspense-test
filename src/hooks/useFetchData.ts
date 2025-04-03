@@ -1,32 +1,20 @@
-import { useEffect, useState } from "react";
+import { use } from "react";
 import { GetRecords } from "../lib/record";
 import { Record } from "../domain/record";
 
-type UseFetchDataResult = {
-  records: Record[];
-  error: Error | null;
-};
+let recordsPromise: Promise<Record[]> | null = null;
 
-export const useFetchData = (): UseFetchDataResult => {
-  const [records, setRecords] = useState<Record[]>([]);
-  const [error, setError] = useState<Error | null>(null);
+export const useFetchData = (): { records: Record[] } => {
+  if (!recordsPromise) {
+    recordsPromise = new Promise<Record[]>((resolve) => {
+      (async () => {
+        const data = await GetRecords();
+        resolve(data);
+      })();
+    });
+  }
 
-  const fetchRecords = async () => {
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-      const data = await GetRecords();
-      setRecords(data);
-    } catch (error) {
-      setError(
-        error instanceof Error ? error : new Error("エラーが発生しました")
-      );
-      console.error(error);
-    }
-  };
+  const records = use(recordsPromise);
 
-  useEffect(() => {
-    fetchRecords();
-  }, []);
-
-  return { records, error };
+  return { records };
 };

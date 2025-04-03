@@ -1,12 +1,8 @@
 import { useFetchData } from "../hooks/useFetchData";
 
 export const RecordList = () => {
-  const { records, error } = useFetchData();
+  const { records } = useFetchData();
   console.log("records", records);
-
-  if (error) {
-    throw error;
-  }
 
   return (
     <div>
