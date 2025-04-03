@@ -1,8 +1,11 @@
-import { use } from "react";
+import { use, useMemo } from "react";
 import { GetRecords } from "../lib/record";
 
 export const RecordList = () => {
-  const records = use(GetRecords());
+  const recordsPromise = useMemo(() => GetRecords(), []);
+  const records = use(recordsPromise);
+
+  console.log("records", records);
 
   return (
     <div>

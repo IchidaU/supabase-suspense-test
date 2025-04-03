@@ -11,5 +11,6 @@ export async function GetRecords(): Promise<Record[]> {
     return new Record(record.id, record.title, record.time);
   });
 
+  console.log("recordsData", recordsData);
   return recordsData;
 }
