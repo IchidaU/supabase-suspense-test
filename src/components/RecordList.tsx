@@ -1,10 +1,7 @@
-import { use, useMemo } from "react";
-import { GetRecords } from "../lib/record";
+import { useFetchData } from "../hooks/useFetchData";
 
 export const RecordList = () => {
-  const recordsPromise = useMemo(() => GetRecords(), []);
-  const records = use(recordsPromise);
-
+  const { records } = useFetchData();
   console.log("records", records);
 
   return (
