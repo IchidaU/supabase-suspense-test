@@ -13,6 +13,7 @@ export const useFetchData = (): UseFetchDataResult => {
 
   const fetchRecords = async () => {
     try {
+      await new Promise((resolve) => setTimeout(resolve, 3000));
       const data = await GetRecords();
       setRecords(data);
     } catch (error) {
